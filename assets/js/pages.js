@@ -129,16 +129,20 @@ var home = function (ev, pd) {
 
     userSettings(pd);
 
-    //listener for Payment Methods
     var self = $(pd.el);
-    //self.
-    /*
-    self.find(".x-method-btn").on("click", function (e) {
-        e.preventDefault();
-        app.tab.show($(this).attr("href"), true);
-        paymentMethod = $(this).data(paymentMethod);
+    //get this home data [total revenue, current users,
+    $.post(getURL("data"), currentUser(), function (r) {
+        if (r.r === "e") {
+            merror(r.text);
+        } else {
+            //populate
+            $("#home-revenue").text("M" + numeral(r.data.cgroup.revenue).format('0,0.00'));
+            $("#home-members").text(numeral(r.data.cgroup.members).format('0,0'));
+            $("#home-requests").text(numeral(r.data.cgroup.requests).format('0,0'));
+        }
+    }, "json").fail(function () {
+        merror(window.jsonError);
     });
-    //*/
 };
 //</editor-fold>
 
@@ -311,11 +315,11 @@ var joinsDialog = function (text, id) {
 
 //<editor-fold defaultstate="collapsed" desc="payments(ev)">
 var payments = function (ev) {
-    
+
     userNotifications();
-    
+
     userSettings(ev.detail);
-    
+
     var self = $(ev.detail.el);
     if (self.is("#pay-type")) {
         var pro = ev.detail.route.params.provider;
@@ -324,7 +328,7 @@ var payments = function (ev) {
         self.find(".x-method-btn").on("click", function (e) {
             e.preventDefault();
             var button = $(this);
-            
+
             var met = button.data("method");
             app.router.navigate("/pay-amount/" + met + "/" + pro + "/");
         });
@@ -337,29 +341,43 @@ var payments = function (ev) {
         } else {
             self.find("[name=reference]").removeAttr("readonly").removeAttr("disabled");
         }
-        
+
         self.find("[name=provider]").val(pro);
         self.find("[name=method]").val(met);
+        self.find("[name=username]").val(getData("username"));
+        self.find("[name=token]").val(getData("token"));
+        self.find("[name=mokhatlo]").val(JSON.parse(getData("cgroup")).code);
         var dform = self.find("form");
         dform.off("submit").on("submit", function (e) {
             e.preventDefault();
             var amount = dform.find("[name=amount]").val();
             var ref = dform.find("[name=reference]").val();
-            
+
             if (amount == "" || isNaN(amount)) {
                 merror("Please enter a correct amount");
                 return;
             }
-            
+
             if (!dform.find("[name=reference]").is("[disabled]")) {
                 if (ref.trim() === "") {
                     merror("Please enter correct reference");
                     return;
                 }
             }
-            
+
+            /*
             var met = dform.find("[name=method]").val();
             var pro = dform.find("[name=provider]").val();
+            //*/
+            $.post(getURL("subscribe"),dform.serialize(),function(r){
+                if(r.r==="e"){
+                    merror(r.text);
+                } else {
+                    
+                }
+            },"json").fail(function(){
+                merror(window.jsonError);
+            });
             malert("This function is not yet implemented!");
         });
     }

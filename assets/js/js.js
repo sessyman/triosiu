@@ -41,7 +41,6 @@ var app = new Framework7({
         }, {
             url: "assets/pages/home.html",
             path: "/home/",
-            name: "home",
             on: {
                 pageInit: function (ev, pd) {
                     home(ev, pd);
@@ -206,9 +205,9 @@ function getURL(page) {
     if (page === undefined) {
         page = "";
     }
-    return "https://triosiu.myself.co.ls/" + page;
-}
-;
+    //return "https://triosiu.myself.co.ls/" + page;
+    return "http://localhost/trio/" + page;
+};
 
 /**
  * Searches for a group using group code.
@@ -297,3 +296,14 @@ var userNotifications = function () {
     $("#note-counter").text(getData(window.notesUnread));
     $("#user-names").text(getData(window.names));
 };
+
+var currentUser = function(){
+    //var info = 
+    var data = {
+        username: getData("username"),
+        token: getData("token"),
+        //will add other information later
+        cgroup: getData("cgroup")
+    };
+    return data;
+}
