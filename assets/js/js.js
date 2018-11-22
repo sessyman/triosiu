@@ -30,6 +30,14 @@ var app = new Framework7({
                     userGroups(ev, pd);
                 }
             }
+        },{
+            url: "assets/pages/notifications.html",
+            path: "/notifications/",
+            on: {
+                pageInit: function (ev, pd) {
+                    //joins(ev, pd);
+                }
+            }
         }, {
             url: "assets/pages/joins.html",
             path: "/joins/",
@@ -206,7 +214,7 @@ function getURL(page) {
     if (page === undefined) {
         page = "";
     }
-    return "http://localhost/trio/" + page;
+    return "http://triosiu.myself.co.ls/" + page;
 }
 ;
 
