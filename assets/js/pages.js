@@ -131,11 +131,14 @@ var home = function (ev, pd) {
 
     //listener for Payment Methods
     var self = $(pd.el);
+    //self.
+    /*
     self.find(".x-method-btn").on("click", function (e) {
         e.preventDefault();
         app.tab.show($(this).attr("href"), true);
         paymentMethod = $(this).data(paymentMethod);
     });
+    //*/
 };
 //</editor-fold>
 
