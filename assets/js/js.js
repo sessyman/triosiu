@@ -206,7 +206,7 @@ function getURL(page) {
     if (page === undefined) {
         page = "";
     }
-    return "http://localhost/trio/" + page;
+    return "https://triosiu.myself.co.ls/" + page;
 }
 ;
 
