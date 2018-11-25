@@ -35,7 +35,7 @@ var app = new Framework7({
             path: "/notifications/",
             on: {
                 pageInit: function (ev, pd) {
-                    //joins(ev, pd);
+                    notifications(ev, pd);
                 }
             }
         }, {
@@ -301,6 +301,8 @@ var userSettings = function (el) {
 };
 
 var userNotifications = function () {
+    console.log("populate user notifications.");
+    console.log(getData(window.notes));
     $("#note-notes").html(getData(window.notes));
     $("#note-counter").text(getData(window.notesUnread));
     $("#user-names").text(getData(window.names));

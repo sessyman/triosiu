@@ -308,11 +308,11 @@ var joinsDialog = function (text, id) {
 
 //<editor-fold defaultstate="collapsed" desc="payments(ev)">
 var payments = function (ev) {
-    
+
     userNotifications();
-    
+
     userSettings(ev.detail);
-    
+
     var self = $(ev.detail.el);
     if (self.is("#pay-type")) {
         var pro = ev.detail.route.params.provider;
@@ -321,7 +321,7 @@ var payments = function (ev) {
         self.find(".x-method-btn").on("click", function (e) {
             e.preventDefault();
             var button = $(this);
-            
+
             var met = button.data("method");
             app.router.navigate("/pay-amount/" + met + "/" + pro + "/");
         });
@@ -334,7 +334,7 @@ var payments = function (ev) {
         } else {
             self.find("[name=reference]").removeAttr("readonly").removeAttr("disabled");
         }
-        
+
         self.find("[name=provider]").val(pro);
         self.find("[name=method]").val(met);
         var dform = self.find("form");
@@ -342,19 +342,19 @@ var payments = function (ev) {
             e.preventDefault();
             var amount = dform.find("[name=amount]").val();
             var ref = dform.find("[name=reference]").val();
-            
+
             if (amount == "" || isNaN(amount)) {
                 merror("Please enter a correct amount");
                 return;
             }
-            
+
             if (!dform.find("[name=reference]").is("[disabled]")) {
                 if (ref.trim() === "") {
                     merror("Please enter correct reference");
                     return;
                 }
             }
-            
+
             var met = dform.find("[name=method]").val();
             var pro = dform.find("[name=provider]").val();
             malert("This function is not yet implemented!");
@@ -377,5 +377,33 @@ var provider = function (ev) {
         var met = button.data("provider");
         app.router.navigate("/pay-type/" + met + "/");
     });
+};
+//</editor-fold>
+
+
+/**
+ * Notifications page; notifications.html
+ * 
+ * @param {type} ev
+ * @param {type} pd
+ * @returns {undefined}
+ */
+//<editor-fold defaultstate="collapsed" desc="home(ev,pd)">
+var notifications = function (ev, pd) {
+    //write notes
+
+    //userNotifications();
+    $("#note-notes").html(getData(window.notes));
+    //alert($("#note-notes").html());
+
+    userSettings(pd);
+
+    /*listener for Payment Methods
+     var self = $(pd.el);
+     self.find(".x-method-btn").on("click", function (e) {
+     e.preventDefault();
+     app.tab.show($(this).attr("href"), true);
+     paymentMethod = $(this).data(paymentMethod);
+     });*/
 };
 //</editor-fold>
