@@ -357,7 +357,10 @@ var payments = function (ev) {
             self.find("[name=reference]").removeAttr("readonly").removeAttr("disabled");
         }
 
+<<<<<<< HEAD
+=======
         var inapp = ("inapp" === met);
+>>>>>>> 148bcff3fcb3a5ddd703472e3a277331a52ea833
         self.find("[name=provider]").val(pro);
         self.find("[name=method]").val(met);
         self.find("[name=username]").val(getData("username"));
@@ -381,6 +384,11 @@ var payments = function (ev) {
                 }
             }
 
+<<<<<<< HEAD
+            var met = dform.find("[name=method]").val();
+            var pro = dform.find("[name=provider]").val();
+            malert("This function is not yet implemented!");
+=======
             /*
              var met = dform.find("[name=method]").val();
              var pro = dform.find("[name=provider]").val();
@@ -397,6 +405,7 @@ var payments = function (ev) {
                 merror(window.jsonError);
             });
             //malert("This function is not yet implemented!");
+>>>>>>> 148bcff3fcb3a5ddd703472e3a277331a52ea833
         });
     }
 };
@@ -416,5 +425,33 @@ var provider = function (ev) {
         var met = button.data("provider");
         app.router.navigate("/pay-type/" + met + "/");
     });
+};
+//</editor-fold>
+
+
+/**
+ * Notifications page; notifications.html
+ * 
+ * @param {type} ev
+ * @param {type} pd
+ * @returns {undefined}
+ */
+//<editor-fold defaultstate="collapsed" desc="home(ev,pd)">
+var notifications = function (ev, pd) {
+    //write notes
+
+    //userNotifications();
+    $("#note-notes").html(getData(window.notes));
+    //alert($("#note-notes").html());
+
+    userSettings(pd);
+
+    /*listener for Payment Methods
+     var self = $(pd.el);
+     self.find(".x-method-btn").on("click", function (e) {
+     e.preventDefault();
+     app.tab.show($(this).attr("href"), true);
+     paymentMethod = $(this).data(paymentMethod);
+     });*/
 };
 //</editor-fold>

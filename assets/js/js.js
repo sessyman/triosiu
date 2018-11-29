@@ -30,6 +30,14 @@ var app = new Framework7({
                     userGroups(ev, pd);
                 }
             }
+        },{
+            url: "assets/pages/notifications.html",
+            path: "/notifications/",
+            on: {
+                pageInit: function (ev, pd) {
+                    notifications(ev, pd);
+                }
+            }
         }, {
             url: "assets/pages/joins.html",
             path: "/joins/",
@@ -220,8 +228,9 @@ function getURL(page) {
     if (page === undefined) {
         page = "";
     }
-    //return "https://triosiu.myself.co.ls/" + page;
-    return "http://localhost/trio/" + page;
+<<<<<<< HEAD
+    return "http://triosiu.myself.co.ls/" + page;
+
 }
 ;
 
@@ -308,6 +317,8 @@ var userSettings = function (el) {
 };
 
 var userNotifications = function () {
+    console.log("populate user notifications.");
+    console.log(getData(window.notes));
     $("#note-notes").html(getData(window.notes));
     $("#note-counter").text(getData(window.notesUnread));
     $("#user-names").text(getData(window.names));
