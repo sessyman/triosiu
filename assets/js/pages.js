@@ -304,7 +304,15 @@ var joinsDialog = function (text, id) {
             },
             {
                 text: "Accept", onClick: function () {
-                    malert("Accepted " + id);
+                    //malert("Accepted " + id);
+                    mwait(null, false);
+                    $.post(getURL("joingroup"), {username: getData(window.username), phone: getData(window.username), token: getData(window.token), action: "reply", reply: "accept", note: id}, function (r) {
+                        if (r === "e") {
+                            merror(r.text);
+                        } else {
+                            malert(r.text);
+                        }
+                    }, "json");
                 }
             }
         ]
@@ -342,6 +350,7 @@ var payments = function (ev) {
             self.find("[name=reference]").removeAttr("readonly").removeAttr("disabled");
         }
 
+        var inapp = ("inapp" === met);
         self.find("[name=provider]").val(pro);
         self.find("[name=method]").val(met);
         self.find("[name=username]").val(getData("username"));
@@ -366,19 +375,21 @@ var payments = function (ev) {
             }
 
             /*
-            var met = dform.find("[name=method]").val();
-            var pro = dform.find("[name=provider]").val();
-            //*/
-            $.post(getURL("subscribe"),dform.serialize(),function(r){
-                if(r.r==="e"){
+             var met = dform.find("[name=method]").val();
+             var pro = dform.find("[name=provider]").val();
+             //*/
+            $.post(getURL("payment"), dform.serialize(), function (r) {
+                if (r.r === "e") {
                     merror(r.text);
                 } else {
-                    
+                    malert("Payment successfully made.");
+                    //go back home
+                    app.router.navigate("/home/");
                 }
-            },"json").fail(function(){
+            }, "json").fail(function () {
                 merror(window.jsonError);
             });
-            malert("This function is not yet implemented!");
+            //malert("This function is not yet implemented!");
         });
     }
 };
