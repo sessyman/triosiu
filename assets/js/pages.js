@@ -129,12 +129,19 @@ var home = function (ev, pd) {
 
     userSettings(pd);
 
-    //listener for Payment Methods
     var self = $(pd.el);
-    self.find(".x-method-btn").on("click", function (e) {
-        e.preventDefault();
-        app.tab.show($(this).attr("href"), true);
-        paymentMethod = $(this).data(paymentMethod);
+    //get this home data [total revenue, current users,
+    $.post(getURL("data"), currentUser(), function (r) {
+        if (r.r === "e") {
+            merror(r.text);
+        } else {
+            //populate
+            $("#home-revenue").text("M" + numeral(r.data.cgroup.revenue).format('0,0.00'));
+            $("#home-members").text(numeral(r.data.cgroup.members).format('0,0'));
+            $("#home-requests").text(numeral(r.data.cgroup.requests).format('0,0'));
+        }
+    }, "json").fail(function () {
+        merror(window.jsonError);
     });
 };
 //</editor-fold>
@@ -297,7 +304,15 @@ var joinsDialog = function (text, id) {
             },
             {
                 text: "Accept", onClick: function () {
-                    malert("Accepted " + id);
+                    //malert("Accepted " + id);
+                    mwait(null, false);
+                    $.post(getURL("joingroup"), {username: getData(window.username), phone: getData(window.username), token: getData(window.token), action: "reply", reply: "accept", note: id}, function (r) {
+                        if (r === "e") {
+                            merror(r.text);
+                        } else {
+                            malert(r.text);
+                        }
+                    }, "json");
                 }
             }
         ]
@@ -335,8 +350,15 @@ var payments = function (ev) {
             self.find("[name=reference]").removeAttr("readonly").removeAttr("disabled");
         }
 
+<<<<<<< HEAD
+=======
+        var inapp = ("inapp" === met);
+>>>>>>> 148bcff3fcb3a5ddd703472e3a277331a52ea833
         self.find("[name=provider]").val(pro);
         self.find("[name=method]").val(met);
+        self.find("[name=username]").val(getData("username"));
+        self.find("[name=token]").val(getData("token"));
+        self.find("[name=mokhatlo]").val(JSON.parse(getData("cgroup")).code);
         var dform = self.find("form");
         dform.off("submit").on("submit", function (e) {
             e.preventDefault();
@@ -355,9 +377,28 @@ var payments = function (ev) {
                 }
             }
 
+<<<<<<< HEAD
             var met = dform.find("[name=method]").val();
             var pro = dform.find("[name=provider]").val();
             malert("This function is not yet implemented!");
+=======
+            /*
+             var met = dform.find("[name=method]").val();
+             var pro = dform.find("[name=provider]").val();
+             //*/
+            $.post(getURL("payment"), dform.serialize(), function (r) {
+                if (r.r === "e") {
+                    merror(r.text);
+                } else {
+                    malert("Payment successfully made.");
+                    //go back home
+                    app.router.navigate("/home/");
+                }
+            }, "json").fail(function () {
+                merror(window.jsonError);
+            });
+            //malert("This function is not yet implemented!");
+>>>>>>> 148bcff3fcb3a5ddd703472e3a277331a52ea833
         });
     }
 };

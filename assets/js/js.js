@@ -49,7 +49,6 @@ var app = new Framework7({
         }, {
             url: "assets/pages/home.html",
             path: "/home/",
-            name: "home",
             on: {
                 pageInit: function (ev, pd) {
                     home(ev, pd);
@@ -117,19 +116,34 @@ window.notesUnread = "unread-notes";
  */
 window.jsonError = "Problem connecting to the server. Please check your network";
 
+window.mloader = null;
+
 /**
  * Shows the wait dialog, to show to the user that something is happening in the
  * background.
  * 
  * @param {string} title the dialog title
+ * @param {boolean} state whether to show or hide the dialog. If {@syntax true},
+ * it will show the dialog, if otherwise, it will hide it. If state is not
+ * specified, it resolves to {@syntax true}.
  * @returns {Dialog} the preloader dialog instance
  */
-var mwait = function (title) {
+var mwait = function (title, state) {
     if (title === undefined) {
         title = "Working";
     }
-    return app.dialog.preloader(title);
+    if (state === undefined) {
+        state = true;
+    }
+    if (state) {
+        window.mloader = app.dialog.preloader(title);
+    } else if (window.mloader !== null) {
+        window.mloader.close(true);
+    }
+    return window.mloader;
 };
+
+
 
 /**
  * Shows an error dialog with title: Error
@@ -214,7 +228,9 @@ function getURL(page) {
     if (page === undefined) {
         page = "";
     }
+<<<<<<< HEAD
     return "http://triosiu.myself.co.ls/" + page;
+
 }
 ;
 
@@ -307,3 +323,14 @@ var userNotifications = function () {
     $("#note-counter").text(getData(window.notesUnread));
     $("#user-names").text(getData(window.names));
 };
+
+var currentUser = function () {
+    //var info = 
+    var data = {
+        username: getData("username"),
+        token: getData("token"),
+        //will add other information later
+        cgroup: getData("cgroup")
+    };
+    return data;
+}
