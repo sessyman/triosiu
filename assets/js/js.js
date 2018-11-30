@@ -228,11 +228,9 @@ function getURL(page) {
     if (page === undefined) {
         page = "";
     }
-<<<<<<< HEAD
-    return "http://triosiu.myself.co.ls/" + page;
-
-}
-;
+    //return "http://triosiu.myself.co.ls/" + page;
+    return "http://localhost/trio/" + page;
+};
 
 /**
  * Searches for a group using group code.
