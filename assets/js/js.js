@@ -28,9 +28,11 @@ var app = new Framework7({
             on: {
                 pageInit: function (ev, pd) {
                     userGroups(ev, pd);
+                    $("#main-nav").show(1);
+                    userSettings(ev);
                 }
             }
-        },{
+        }, {
             url: "assets/pages/notifications.html",
             path: "/notifications/",
             on: {
@@ -52,6 +54,8 @@ var app = new Framework7({
             on: {
                 pageInit: function (ev, pd) {
                     home(ev, pd);
+                    $(".navbar-inner .left a").show(1);
+                    $(".navbar-inner .right").show(1);
                 }
             }
         }, {
@@ -60,6 +64,12 @@ var app = new Framework7({
             on: {
                 pageInit: function (ev, pd) {
                     provider(ev);
+                    menuIcon(false);
+                    title("Subscribe");
+                },
+                pageReinit:function(pd){
+                    menuIcon(false);
+                    title("Subscribe");
                 }
             }
         }, {
@@ -69,6 +79,12 @@ var app = new Framework7({
             on: {
                 pageInit: function (ev, pd) {
                     payments(ev);
+                    menuIcon(false);
+                    title("Payment");
+                },
+                pageReinit:function(pd){
+                    menuIcon(false);
+                    title("Payment");
                 }
             }
         }, {
@@ -77,6 +93,12 @@ var app = new Framework7({
             on: {
                 pageInit: function (ev, pd) {
                     payments(ev);
+                    menuIcon(false);
+                    title("Amount");
+                },
+                pageReinit:function(pd){
+                    menuIcon(false);
+                    title("Amount");
                 }
             }
         }
@@ -123,19 +145,19 @@ window.mloader = null;
  * background.
  * 
  * @param {string} title the dialog title
- * @param {boolean} state whether to show or hide the dialog. If {@syntax true},
+ * @param {boolean} show whether to show or hide the dialog. If {@syntax true},
  * it will show the dialog, if otherwise, it will hide it. If state is not
  * specified, it resolves to {@syntax true}.
  * @returns {Dialog} the preloader dialog instance
  */
-var mwait = function (title, state) {
-    if (title === undefined) {
+var mwait = function (title, show) {
+    if (title === undefined || title===null) {
         title = "Working";
     }
-    if (state === undefined) {
-        state = true;
+    if (show === undefined) {
+        show = true;
     }
-    if (state) {
+    if (show) {
         window.mloader = app.dialog.preloader(title);
     } else if (window.mloader !== null) {
         window.mloader.close(true);
@@ -230,7 +252,8 @@ function getURL(page) {
     }
     //return "http://triosiu.myself.co.ls/" + page;
     return "http://localhost/trio/" + page;
-};
+}
+;
 
 /**
  * Searches for a group using group code.
@@ -308,10 +331,16 @@ var userSettings = function (el) {
             }
         ]
     });
+    $(document).on("click","#user-sets",function(e){
+        e.preventDefault();
+        userSettings.open();
+    });
+    /*
     $(el.el).find("#user-sets").on("click", function (e) {
         e.preventDefault();
         userSettings.open();
     });
+    //*/
 };
 
 var userNotifications = function () {
@@ -331,4 +360,23 @@ var currentUser = function () {
         cgroup: getData("cgroup")
     };
     return data;
-}
+};
+
+var title = function (t) {
+    /*
+    if (t === undefined) {
+        t = "Sesiu";
+    }
+    $(".title").text(t);
+    //*/
+};
+
+var menuIcon = function (home) {
+    /*
+    var html = "<a href=\"#\" id=\"menu-top\" class=\"link icon-only panel-open\" data-panel=\"left\"><i class=\"la la-bars\"></i></a>";
+    if (!home || home === undefined) {
+        html = "<a href=\"#\" class=\"back icon-only\"><i class=\"icon icon-back\"></i></a>";
+    }
+    $(".left").html(html);
+    //*/
+};

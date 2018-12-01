@@ -54,6 +54,7 @@ var signup = function (ev, pd) {
  */
 //<editor-fold defaultstate="collapsed" desc="login(ev,pd)">
 var login = function (ev, pd) {
+    $("#main-nav").hide(1);
     $(pd.el).find("#login-form").on("submit", function (e) {
         e.preventDefault();
         //submitting a form
@@ -126,8 +127,9 @@ var login = function (ev, pd) {
 var home = function (ev, pd) {
     //write notes
     userNotifications();
-
     userSettings(pd);
+    menuIcon(true);
+    //title();
 
     var self = $(pd.el);
     //get this home data [total revenue, current users,
@@ -190,7 +192,8 @@ var userGroups = function (ev) {
 
     //*
     if ((getData(window.currentGroup) === undefined) || (getData(window.currentGroup) === null)) {
-        $(".navbar-inner .left a").remove();
+        $(".navbar-inner .left a").hide(1);
+        $(".navbar-inner .right").hide(1);
     }
     //*/
 
@@ -229,11 +232,13 @@ var userGroups = function (ev) {
 //<editor-fold defaultstate="collapsed" desc="joins(ev)">
 var joins = function (ev) {
     var whichRequest = null;
+    menuIcon();
+    title("Sesiu");
     //page init
-    var loader = mwait();
+    mwait();
     $.post(getURL("joingroup"), {phone: getData(window.username), action: "read"}, function (r) {
         if (r.r === "e") {
-            loader.close(true);
+            mwait(null, false);
             merror(r.text);
         } else {
             var html = '';
@@ -427,7 +432,7 @@ var provider = function (ev) {
  * @param {type} pd
  * @returns {undefined}
  */
-//<editor-fold defaultstate="collapsed" desc="home(ev,pd)">
+//<editor-fold defaultstate="collapsed" desc="notifications(ev,pd)">
 var notifications = function (ev, pd) {
     //write notes
 
