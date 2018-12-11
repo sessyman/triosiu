@@ -96,7 +96,7 @@ var login = function (ev, pd) {
                     if (!note.seen) {
                         msg = "<b>" + msg + "</b>";
                     }
-                    var html = '<li class="list-item border bottom x-note-item" data-id=' + note.code + ' data-seen=' + note.seen + '>';
+                    var html = '<li class="list-item border bottom x-note-item" data-id="' + note.code + '" data-seen="' + note.seen + '">';
                     html += '<a href="/joins/" class="media-hover p-15"><div class="media-img"><div class="icon-avatar bg-success"><i class="ti-user"></i></div></div>';
                     html += '<div class="info"><span class="title">' + msg + '</span><span class="sub-title">' + note.date + '</span></div></a></li>';
                     allNotes += html;
@@ -237,8 +237,8 @@ var joins = function (ev) {
     //page init
     mwait();
     $.post(getURL("joingroup"), {phone: getData(window.username), action: "read"}, function (r) {
+        mwait(null, false);
         if (r.r === "e") {
-            mwait(null, false);
             merror(r.text);
         } else {
             var html = '';
@@ -258,9 +258,9 @@ var joins = function (ev) {
                 //userJoinRequests.open();
                 joinsDialog(self.find("label").text(), whichRequest);
             });
-            loader.close(true);
         }
     }, "json").fail(function () {
+        mwait(null, false);
         merror(window.jsonError);
     });
 
@@ -451,3 +451,95 @@ var notifications = function (ev, pd) {
      });*/
 };
 //</editor-fold>
+
+var reporting = function (ev) {
+    var self = $(ev.detail.el);
+    mwait();
+    var data = xhrData();
+    $.post(getURL("reports"), data, function (r) {
+        mwait(null, false);
+        if (r.r === "e") {
+            merror(r.text);
+        } else {
+            var allNotes = "";
+            var notes = r.data;
+            for (i = 0; i < notes.length; i++) {
+                var note = notes[i];
+                var msg = note.type;
+                var met = note.method;
+                var time = note.time3;
+                if ("inapp" === met) {
+                    met = '<i class="la la-mobile"></i>';
+                } else {
+                    met = '<i class="la la-hand-o-up"></i>';
+                }
+
+                var money = "M" + numeral(note.amount).format("0,0.00");
+                if (note.status == -1) {
+                    money = "<i style=\"color:red\">" + money + "</i>";
+                }
+
+                var html = '<li class="list-item border bottom x-note-item" data-id="' + note.id + '">';
+                html += '    <a href="#" class="media-hover p-15">';
+                html += '        <div class="info">';
+                html += '            <i class="la la-money"></i>';
+                html += '            <span class="title">' + msg + '</span>';
+                html += '            <span class="sub-title">' + money + '</span>';
+                html += '            <span class="sub-title">' + met + '</span>';
+                html += '            <span class="sub-title">' + time + '</span>';
+                html += '        </div>';
+                html += '    </a>';
+                html += '</li>';
+
+                allNotes += html;
+            }
+            $("#report-list").html(allNotes);
+            //*
+            self.find(".x-note-item a").on("click", function (e) {
+                e.preventDefault();
+                var button = $(this);
+                var id = button.closest("li").data("id");
+                app.router.navigate("/transaction/" + id + "/");
+            });
+        }
+    }, "json").fail(function () {
+        mwait(null, false);
+        merror(window.jsonError);
+    });
+};
+
+var transaction = function (ev) {
+    var self = $(ev.detail.el);
+    var id = ev.detail.route.params.transid;
+    //get this transaction information
+    mwait();
+    var data = xhrData();
+    data.transid = id;
+    $.post(getURL("transaction"), data, function (r) {
+        mwait(null, false);
+        if (r.r === "e") {
+            merror(r.text);
+        } else {
+            var member = r.member;
+            var names = member.names + " " + member.lname;
+            if (member.phone === getData(window.username)) {
+                names = member.names + " " + member.lname + " (You)";
+            }
+            var money = '<i class="la la-check"></i> M' + numeral(r.amount).format("0,0.00");
+            if (r.status == -1) {
+                money = '<i class="la la-remove"></i> M' + numeral(r.amount).format("0,0.00")+' (not confirmed)';
+            }
+
+            self.find("#tr-names").text(names);
+            self.find("#tr-amount").html(money);
+            self.find("#tr-target").text(r.type);
+            self.find("#tr-method").text(r.method);
+            self.find("#tr-ref").text(r.reference);
+            self.find("#tr-transid").text(r.id);
+            self.find("#tr-time").text(r.time3 + " at " + r.time2);
+        }
+    }, "json").fail(function () {
+        mwait(null, false);
+        merror(window.jsonError);
+    });
+};

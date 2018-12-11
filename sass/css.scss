@@ -44,7 +44,7 @@ and open the template in the editor.
         background: #000;
         border-radius: 15px;
         padding: 5px;
-        
+
         .badge{
             position: absolute;
             top: 8px;
@@ -74,8 +74,31 @@ and open the template in the editor.
 #note-notes{
     li{
         border-bottom: 1px solid #000;
+        padding: 3px 5px;
     }
     li:nth-of-type(even){
         background: #eee;
     }
+}
+
+.x-item-list{
+    li{
+        /*border-bottom: 1px solid #000;*/
+        padding: 3px 5px;
+    }
+    li:nth-of-type(even){
+        background: #eee;
+    }
+}
+
+#reporting .x-note-item{
+    text-align: center;
+    .info, .sub-title{
+        font-size: 85%;
+    }
+}
+
+#transaction{
+    .la-check{color:#080}
+    .la-remove{color:#f00}
 }

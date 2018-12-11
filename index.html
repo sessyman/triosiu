@@ -3,7 +3,11 @@
     <head>
         <title>Sesiu App</title>
         <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui, viewport-fit=cover">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+
+        <!-- Color theme for statusbar -->
+        <meta name="theme-color" content="#2196f3">
         <link href="lib/line-awesome/css/line-awesome.min.css" rel="stylesheet" type="text/css"/>
         <link href="assets/css/framework7.min.css" rel="stylesheet" type="text/css"/>
         <link href="assets/css/css.css" rel="stylesheet" type="text/css"/>
@@ -42,8 +46,14 @@
                             </li>
                             <li>
                                 <a href="/provider/" class="item-link item-content panel-close">
-                                    <div class="item-media"><i class="la la-group"></i></div>
+                                    <div class="item-media"><i class="la la-money"></i></div>
                                     <div class="item-inner"><div class="item-title"> Subscribe</div></div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="/reports/" class="item-link item-content panel-close">
+                                    <div class="item-media"><i class="la la-paper-plane"></i></div>
+                                    <div class="item-inner"><div class="item-title"> Reports</div></div>
                                 </a>
                             </li>
                         </ul>
@@ -61,7 +71,7 @@
             </div>
 
             <!-- Where All Pages Load -->
-            <div class="view view-main view-init" data-url="/" id="main">
+            <div class="view view-main view-init" data-url="/reports/" id="main">
                 <div class="navbar" id="main-nav">
                     <div class="navbar-inner">
                         <div class="left"><a href="#" id="menu-top" class="link icon-only panel-open" data-panel="left"><i class="la la-bars"></i></a></div>

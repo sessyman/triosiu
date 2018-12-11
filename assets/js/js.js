@@ -67,9 +67,30 @@ var app = new Framework7({
                     menuIcon(false);
                     title("Subscribe");
                 },
-                pageReinit:function(pd){
+                pageReinit: function (pd) {
                     menuIcon(false);
                     title("Subscribe");
+                }
+            }
+        }, {
+            url: "assets/pages/report.html",
+            path: "/reports/",
+            on: {
+                pageInit: function (ev, pd) {
+                    reporting(ev);
+                    userNotifications();
+                }
+            }
+        }, {
+            url: "assets/pages/transaction.html",
+            path: "/transaction/:transid",
+            name: "transaction",
+            on: {
+                pageInit: function (ev, pd) {
+                    transaction(ev);
+                    userNotifications();
+                },
+                pageReinit: function (pd) {
                 }
             }
         }, {
@@ -82,7 +103,7 @@ var app = new Framework7({
                     menuIcon(false);
                     title("Payment");
                 },
-                pageReinit:function(pd){
+                pageReinit: function (pd) {
                     menuIcon(false);
                     title("Payment");
                 }
@@ -96,7 +117,7 @@ var app = new Framework7({
                     menuIcon(false);
                     title("Amount");
                 },
-                pageReinit:function(pd){
+                pageReinit: function (pd) {
                     menuIcon(false);
                     title("Amount");
                 }
@@ -151,7 +172,7 @@ window.mloader = null;
  * @returns {Dialog} the preloader dialog instance
  */
 var mwait = function (title, show) {
-    if (title === undefined || title===null) {
+    if (title === undefined || title === null) {
         title = "Working";
     }
     if (show === undefined) {
@@ -331,16 +352,16 @@ var userSettings = function (el) {
             }
         ]
     });
-    $(document).on("click","#user-sets",function(e){
+    $(document).on("click", "#user-sets", function (e) {
         e.preventDefault();
         userSettings.open();
     });
     /*
-    $(el.el).find("#user-sets").on("click", function (e) {
-        e.preventDefault();
-        userSettings.open();
-    });
-    //*/
+     $(el.el).find("#user-sets").on("click", function (e) {
+     e.preventDefault();
+     userSettings.open();
+     });
+     //*/
 };
 
 var userNotifications = function () {
@@ -362,21 +383,26 @@ var currentUser = function () {
     return data;
 };
 
+var xhrData = function () {
+    var data = {username: getData(window.username), token: getData(window.token), cgroup: getData(window.currentGroup)};
+    return data;
+}
+
 var title = function (t) {
     /*
-    if (t === undefined) {
-        t = "Sesiu";
-    }
-    $(".title").text(t);
-    //*/
+     if (t === undefined) {
+     t = "Sesiu";
+     }
+     $(".title").text(t);
+     //*/
 };
 
 var menuIcon = function (home) {
     /*
-    var html = "<a href=\"#\" id=\"menu-top\" class=\"link icon-only panel-open\" data-panel=\"left\"><i class=\"la la-bars\"></i></a>";
-    if (!home || home === undefined) {
-        html = "<a href=\"#\" class=\"back icon-only\"><i class=\"icon icon-back\"></i></a>";
-    }
-    $(".left").html(html);
-    //*/
+     var html = "<a href=\"#\" id=\"menu-top\" class=\"link icon-only panel-open\" data-panel=\"left\"><i class=\"la la-bars\"></i></a>";
+     if (!home || home === undefined) {
+     html = "<a href=\"#\" class=\"back icon-only\"><i class=\"icon icon-back\"></i></a>";
+     }
+     $(".left").html(html);
+     //*/
 };

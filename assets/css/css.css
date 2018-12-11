@@ -53,8 +53,25 @@ and open the template in the editor.
   padding-left: 10px; }
 
 #note-notes li {
-  border-bottom: 1px solid #000; }
+  border-bottom: 1px solid #000;
+  padding: 3px 5px; }
 #note-notes li:nth-of-type(even) {
   background: #eee; }
+
+.x-item-list li {
+  /*border-bottom: 1px solid #000;*/
+  padding: 3px 5px; }
+.x-item-list li:nth-of-type(even) {
+  background: #eee; }
+
+#reporting .x-note-item {
+  text-align: center; }
+  #reporting .x-note-item .info, #reporting .x-note-item .sub-title {
+    font-size: 85%; }
+
+#transaction .la-check {
+  color: #080; }
+#transaction .la-remove {
+  color: #f00; }
 
 /*# sourceMappingURL=css.css.map */
